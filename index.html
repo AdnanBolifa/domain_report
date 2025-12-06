@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير النطاقات والمدفوعات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #2980b9;
+            --success-color: #27ae60;
+            --danger-color: #c0392b;
+            --light-gray: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #f5f5f5;
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 28px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: var(--accent-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-right: 5px solid var(--accent-color);
+            padding-right: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        /* Total Row Styling */
+        .total-row td {
+            background-color: #ecf0f1;
+            font-weight: bold;
+            font-size: 1.1em;
+            border-top: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .price-tag {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .status-owned {
+            color: var(--success-color);
+            font-weight: bold;
+            background-color: rgba(39, 174, 96, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .status-missing {
+            color: var(--danger-color);
+            font-weight: bold;
+            background-color: rgba(192, 57, 43, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .print-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px;
+            background-color: var(--accent-color);
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+        }
+
+        .print-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Print Specific Styles */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">طباعة التقرير / PDF</button>
+
+    <div class="container">
+        <header>
+            <h1>تقرير النطاقات المستحقة</h1>
+            <p>تاريخ التقرير: <span id="date"></span></p>
+        </header>
+
+        <h2>النطاقات المتوفرة (المستحقة للدفع)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>اسم الشركة</th>
+                    <th>اسم النطاق</th>
+                    <th>تاريخ الانتهاء</th>
+                    <th>الحالة</th>
+                    <th>السعر (سنوياً)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>شركة أبراج المدينة</td>
+                    <td>abrajalmadena.com</td>
+                    <td class="expiry" data-expiry="2026-11-17"></td>
+                    <td><span class="status-owned">متوفر لديك</span></td>
+                    <td class="price-tag">140 د.ل</td>
+                </tr>
+                <tr>
+                    <td>شركة بوابة أفريقيا</td>
+                    <td>africagate.ly</td>
+                    <td class="expiry" data-expiry="2026-11-19"></td>
+                    <td><span class="status-owned">متوفر لديك</span></td>
+                    <td class="price-tag">45 د.ل</td>
+                </tr>
+                <tr>
+                    <td>شركة الأبراج الحديثة</td>
+                    <td>alabrajalhadeta.ly</td>
+                    <td class="expiry" data-expiry="2026-11-19"></td>
+                    <td><span class="status-owned">متوفر لديك</span></td>
+                    <td class="price-tag">45 د.ل</td>
+                </tr>
+                <tr>
+                    <td>مجموعة الخبرة</td>
+                    <td>alkhebragroup.ly</td>
+                    <td class="expiry" data-expiry="2026-11-08"></td>
+                    <td><span class="status-owned">متوفر لديك</span></td>
+                    <td class="price-tag">45 د.ل</td>
+                </tr>
+                <tr>
+                    <td>مجموعة الخبرة</td>
+                    <td>alkhebragroup.net</td>
+                    <td class="expiry" data-expiry="2026-11-08"></td>
+                    <td><span class="status-owned">متوفر لديك</span></td>
+                    <td class="price-tag">140 د.ل</td>
+                </tr>
+                <tr>
+                    <td>شركة الثقيل</td>
+                    <td>altakeel.com</td>
+                    <td class="expiry" data-expiry="2026-12-02"></td>
+                    <td><span class="status-owned">متوفر لديك</span></td>
+                    <td class="price-tag">140 د.ل</td>
+                </tr>
+                <tr>
+                    <td>شركة أنوار المدينة</td>
+                    <td>anwaralmadina.com</td>
+                    <td class="expiry" data-expiry="2026-11-17"></td>
+                    <td><span class="status-owned">متوفر لديك</span></td>
+                    <td class="price-tag">140 د.ل</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="4">إجمالي التجديد السنوي المستحق</td>
+                    <td>695 د.ل</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <h2 style="color: #7f8c8d; border-color: #7f8c8d;">نطاقات غير الغير متوفره (بدون موقع)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>اسم الشركة</th>
+                    <th>اسم النطاق</th>
+                    <th>تاريخ الانتهاء</th>
+                    <th>الحالة</th>
+                    <th>السعر المقدر</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>شركة الأبراج الحديثة</td>
+                    <td>alabrajalhadeta.com.ly</td>
+                    <td class="expiry" data-expiry="2026-11-17"></td>
+                    <td><span class="status-missing">غير متوفر لديك</span></td>
+                    <td class="price-tag">15 د.ل</td>
+                </tr>
+                <tr>
+                    <td>شركة أنوار المدينة</td>
+                    <td>anwaralmadena.com</td>
+                    <td class="expiry" data-expiry="2026-11-17"></td>
+                    <td><span class="status-missing">غير متوفر لديك</span></td>
+                    <td class="price-tag">140 د.ل</td>
+                </tr>
+                <tr>
+                    <td>شركة ماك (MAC)</td>
+                    <td>mac.net.ly</td>
+                    <td class="expiry" data-expiry="2026-11-17"></td>
+                    <td><span class="status-missing">غير متوفر لديك</span></td>
+                    <td class="price-tag">15 د.ل</td>
+                </tr>
+                <tr>
+                    <td>شركة التكيل</td>
+                    <td>takeel.com.ly</td>
+                    <td class="expiry" data-expiry="2026-11-17"></td>
+                    <td><span class="status-missing">غير متوفر لديك</span></td>
+                    <td class="price-tag">15 د.ل</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row" style="color:#7f8c8d;">
+                    <td colspan="4" style="color:#7f8c8d;">تكلفة إضافة هذه النطاقات</td>
+                    <td style="color:#7f8c8d;">185 د.ل</td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+
+    <script>
+        // Set current date in Arabic and format expiry cells
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('date').innerText = new Date().toLocaleDateString('ar-LY', options);
+
+        // Format expiry dates from `data-expiry` attributes
+        document.querySelectorAll('.expiry').forEach(el => {
+            const val = el.getAttribute('data-expiry');
+            if (val) {
+                const dt = new Date(val);
+                if (!isNaN(dt)) {
+                    el.innerText = dt.toLocaleDateString('ar-LY', options);
+                } else {
+                    // If it's not a valid ISO date, just show raw value
+                    el.innerText = val;
+                }
+            } else {
+                el.innerText = '-';
+            }
+        });
+    </script>
+</body>
+</html>
